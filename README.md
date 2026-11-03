@@ -2,6 +2,53 @@
 
 국토교통부 [시군구별 교통수단별 이용량](https://www.data.go.kr/data/15162136/fileData.do) CSV를 대상으로 전국 비교와 부산 구·군 심층 분석을 수행하는 Python/SQL 프로젝트입니다.
 
+## 프로젝트 요약
+
+공공데이터포털 Open API에서 대중교통 데이터를 자동 수집하고, 품질 검증·정제·
+증분 적재·분석·대시보드 생성까지 수행하는 운영형 데이터 파이프라인입니다.
+SQLite를 기본 실행 환경으로 사용하며 Docker Compose와 PostgreSQL 적재도
+지원합니다.
+
+### 데이터와 최신 검증 규모
+
+| 데이터셋 | API | 행 수 |
+|---|---|---:|
+| 시군구별 교통수단별 이용량 | `15162136` | 315,505 |
+| 시군구별 대중교통 이용인원수 | `15162146` | 96,366 |
+| 시군구별 시간대별 이용량 | `15162164` | 1,843,188 |
+
+대상 기간은 2025년 1월~12월이며, 부산 16개 구·군을 중심으로 지역·교통수단·
+월별·시간대별 분석을 제공합니다.
+
+### 아키텍처
+
+```text
+공공데이터 API(JSON)
+  → collect_data (재시도·원자적 저장·SHA-256)
+  → inspect_data / clean_data (품질 검증·표준화)
+  → SQLite 증분 upsert
+       ├─ transport_usage
+       ├─ transport_person
+       ├─ transport_hourly
+       ├─ collection_runs
+       └─ pipeline_runs
+  → analyze (Python·SQL 집계 및 통계 분석)
+  → dashboard (HTML·PNG·대시보드 운영 상태)
+```
+
+### 핵심 기능
+
+- API JSON 페이지 수집 및 CSV 변환(`perPage=10000`)
+- 최대 3회 재시도, `.part` 임시 파일, 기존 파일 보존
+- SHA-256 매니페스트와 수집 시각·파일 크기·행 수 기록
+- 결측값·중복·음수·자료형·시간대 범위 품질 검증
+- 자연키 기반 SQLite 증분 upsert와 변경 행 갱신
+- 수집·적재 성공/실패/건너뜀 이력 및 오류 기록
+- 전국 비교, 부산 구·군, 교통수단, 월별, 계절성, 시간대 분석
+- HTML 탭·필터·히트맵·운영 상태가 포함된 대시보드
+- Windows 작업 스케줄러, Discord 웹훅, SMTP 이메일 실패 알림
+- Docker Compose 기반 PostgreSQL 실행 및 적재
+
 ## 시작하기
 
 1. Python 3.11 이상 환경을 준비합니다.
@@ -181,6 +228,30 @@ python -m src.run_pipeline
 아키텍처와 포트폴리오용 데이터 흐름·인사이트는
 `docs/portfolio.md`에서 확인할 수 있습니다.
 
+## 최종 결과물과 검증
+
+주요 결과물은 다음 위치에 생성됩니다.
+
+- [dashboard.html](reports/dashboard.html): 브라우저용 부산 대중교통 대시보드
+- `reports/dashboard.png`: 요약 이미지
+- `reports/figures/`: 지역·교통수단·월별·시간대 그래프
+- `data/processed/transport_usage.sqlite`: SQLite 데이터베이스와 운영 이력
+- `logs/pipeline.log`: 단계별 실행 로그
+- `docs/data_spec.md`: 데이터 계약과 품질 기준
+- `docs/portfolio.md`: 포트폴리오용 아키텍처·인사이트 요약
+
+최종 자동 테스트는 **16개 통과**했으며, 품질 검증에서 결측값과 완전 중복
+행이 없음을 확인했습니다. Docker + PostgreSQL 통합 검증도 완료했으며,
+세 테이블 적재 행 수는 각각 315,505행, 96,366행, 1,843,188행입니다.
+
+## 보안 및 공개 저장소 주의사항
+
+- `.env`와 API 인증키·DB 비밀번호는 절대 GitHub에 올리지 않습니다.
+- 저장소에는 `.env.example`만 공개합니다.
+- 원본 CSV·처리 데이터·SQLite DB는 `.gitignore`로 제외합니다.
+- 인증키가 외부에 노출되면 공공데이터포털에서 폐기 후 새 키를 발급합니다.
+- Discord 웹훅과 SMTP 비밀번호도 `.env`에만 저장합니다.
+
 ## 단계별 완료 기준
 
 - 1단계: `src.inspect_data`가 원천 CSV의 컬럼, 기간, 행 수, 결측치, 중복을 출력한다.
@@ -198,6 +269,10 @@ python -m src.run_pipeline
 - [x] 수집된 원본 확인부터 DB 저장·분석까지 단일 파이프라인 실행
 - [x] 분석 그래프와 재현 가능한 README 작성
 - [x] 데이터 품질 자동 테스트와 실패 단계 재시도
+- [x] 수집·적재 운영 이력과 실패 상태 기록
+- [x] SQLite 증분 적재와 중복 방지
+- [x] Windows 정기 실행 및 Discord/SMTP 실패 알림
+- [x] 복구 재실행 테스트와 포트폴리오 문서화
 - [x] PostgreSQL 적재 모듈과 Docker Compose 실행 환경
 - [x] GitHub Repository 공개: [FB1937/transport-data-pipeline](https://github.com/FB1937/transport-data-pipeline)
 
