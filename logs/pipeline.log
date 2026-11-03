@@ -1,0 +1,827 @@
+2026-11-03 20:36:21,714 INFO START src.inspect_data
+2026-11-03 20:36:22,652 INFO DONE src.inspect_data
+2026-11-03 20:36:22,652 INFO START src.clean_data
+2026-11-03 20:36:24,224 INFO DONE src.clean_data
+2026-11-03 20:36:24,225 INFO START src.load_sqlite
+2026-11-03 20:36:25,709 INFO DONE src.load_sqlite
+2026-11-03 20:36:25,709 INFO START src.analyze
+2026-11-03 20:36:27,747 INFO DONE src.analyze
+2026-11-03 20:36:27,748 INFO PIPELINE COMPLETE
+2026-11-03 20:36:34,082 INFO START src.inspect_data
+2026-11-03 20:36:34,948 INFO �� ��: 315,505
+�� ��: 7
+�÷�: ['��������', '�õ��ڵ�(������)', '�õ���', '�ñ����ڵ�(������)', '�ñ�����', '������ܸ�', '�̿뷮']
+
+�ڷ���:
+��������          object
+�õ��ڵ�(������)      int64
+�õ���           object
+�ñ����ڵ�(������)     int64
+�ñ�����          object
+������ܸ�         object
+�̿뷮            int64
+
+����ġ:
+��������          0
+�õ��ڵ�(������)     0
+�õ���           0
+�ñ����ڵ�(������)    0
+�ñ�����          0
+������ܸ�         0
+�̿뷮           0
+
+�ߺ� �� ��: 0
+
+�������� ����: 2025-01-01 ~ 2025-12-31
+
+�õ��� �� ��:
+�õ���
+��⵵        86554
+����Ư����      66547
+��õ������      25143
+�λ걤����      20061
+��󳲵�       15070
+���ϵ�       14771
+��û����       11359
+����Ư����ġ��    11038
+����Ư����ġ��    10333
+���󳲵�        9461
+����������       8761
+��û�ϵ�        8589
+��걤����       8480
+�뱸������       7182
+���ֱ�����       6570
+����Ư����ġ��     4126
+����Ư����ġ��     1460
+
+������ܺ� �� ��:
+������ܸ�
+�ó�      91105
+����      46365
+����ö��    44098
+�¼�      35963
+����      28311
+����      24639
+����      22916
+���׹���    15782
+�ÿ�       3272
+��ȯ       2104
+��Ÿ����      950
+
+[OK] 1�ܰ� ������ ���� Ȯ�� �Ϸ�
+2026-11-03 20:36:34,949 INFO DONE src.inspect_data
+2026-11-03 20:36:34,949 INFO START src.clean_data
+2026-11-03 20:36:36,486 INFO [OK] ���� �Ϸ�: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505��)
+2026-11-03 20:36:36,486 INFO DONE src.clean_data
+2026-11-03 20:36:36,486 INFO START src.load_sqlite
+2026-11-03 20:36:37,908 INFO [OK] SQLite ���� �Ϸ�: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite (315,505��)
+
+���� �õ� ���� 10��:
+- ����Ư����: 3,766,452,284
+- ��⵵: 1,913,336,686
+- �λ걤����: 771,832,828
+- ��õ������: 494,134,431
+- �뱸������: 312,294,408
+- ����������: 180,007,928
+- ��󳲵�: 175,940,305
+- ���ֱ�����: 124,123,744
+- ��û����: 105,406,317
+- ���ϵ�: 105,296,507
+2026-11-03 20:36:37,908 INFO DONE src.load_sqlite
+2026-11-03 20:36:37,908 INFO START src.analyze
+2026-11-03 20:36:39,921 INFO [OK] Python��SQL ���� ��ġ ���� �Ϸ�
+[OK] �м� ���: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] �׷��� ����: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+���� �̿뷮 ���� 5��:
+- ����Ư����: 3,766,452,284
+- ��⵵: 1,913,336,686
+- �λ걤����: 771,832,828
+- ��õ������: 494,134,431
+- �뱸������: 312,294,408
+2026-11-03 20:36:39,921 INFO DONE src.analyze
+2026-11-03 20:36:39,921 INFO PIPELINE COMPLETE
+2026-11-03 20:36:47,436 INFO START src.inspect_data
+2026-11-03 20:36:48,308 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+[OK] 1단계 데이터 구조 확인 완료
+2026-11-03 20:36:48,308 INFO DONE src.inspect_data
+2026-11-03 20:36:48,308 INFO START src.clean_data
+2026-11-03 20:36:49,822 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+2026-11-03 20:36:49,823 INFO DONE src.clean_data
+2026-11-03 20:36:49,823 INFO START src.load_sqlite
+2026-11-03 20:36:51,257 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite (315,505행)
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 20:36:51,258 INFO DONE src.load_sqlite
+2026-11-03 20:36:51,258 INFO START src.analyze
+2026-11-03 20:36:53,306 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 20:36:53,306 INFO DONE src.analyze
+2026-11-03 20:36:53,306 INFO PIPELINE COMPLETE
+2026-11-03 20:39:31,361 INFO START src.inspect_data
+2026-11-03 20:39:32,125 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+[OK] 1단계 데이터 구조 확인 완료
+2026-11-03 20:39:32,126 INFO DONE src.inspect_data
+2026-11-03 20:39:32,126 INFO START src.clean_data
+2026-11-03 20:39:33,487 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+2026-11-03 20:39:33,487 INFO DONE src.clean_data
+2026-11-03 20:39:33,487 INFO START src.load_sqlite
+2026-11-03 20:39:34,785 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite (315,505행)
+[OK] CSV·DB 건수 검증 완료: 315,505행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 20:39:34,785 INFO DONE src.load_sqlite
+2026-11-03 20:39:34,785 INFO START src.analyze
+2026-11-03 20:39:36,638 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 20:39:36,638 INFO DONE src.analyze
+2026-11-03 20:39:36,638 INFO PIPELINE COMPLETE
+2026-11-03 20:53:08,022 INFO START src.inspect_data
+2026-11-03 20:53:09,041 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+[OK] 1단계 데이터 구조 확인 완료
+2026-11-03 20:53:09,041 INFO DONE src.inspect_data
+2026-11-03 20:53:09,041 INFO START src.clean_data
+2026-11-03 20:53:10,689 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+2026-11-03 20:53:10,689 INFO DONE src.clean_data
+2026-11-03 20:53:10,689 INFO START src.load_sqlite
+2026-11-03 20:53:12,307 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite (315,505행)
+[OK] CSV·DB 건수 검증 완료: 315,505행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 20:53:12,308 INFO DONE src.load_sqlite
+2026-11-03 20:53:12,308 INFO START src.analyze
+2026-11-03 20:53:14,595 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 20:53:14,596 INFO DONE src.analyze
+2026-11-03 20:53:14,596 INFO START src.dashboard
+2026-11-03 20:53:16,774 INFO [OK] PNG 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.png
+[OK] HTML 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.html
+2026-11-03 20:53:16,774 INFO DONE src.dashboard
+2026-11-03 20:53:16,774 INFO PIPELINE COMPLETE
+2026-11-03 21:07:57,929 INFO START src.inspect_data
+2026-11-03 21:07:58,946 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+[OK] 1단계 데이터 구조 확인 완료
+2026-11-03 21:07:58,946 INFO DONE src.inspect_data
+2026-11-03 21:07:58,946 INFO START src.clean_data
+2026-11-03 21:08:08,221 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+[OK] 이용인원 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_person_clean.csv (96,366행)
+[OK] 시간대 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_hourly_clean.csv (1,843,188행)
+2026-11-03 21:08:08,221 INFO DONE src.clean_data
+2026-11-03 21:08:08,221 INFO START src.load_sqlite
+2026-11-03 21:08:14,695 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite
+[OK] CSV·DB 건수 검증 완료 (transport_usage): 315,505행
+[OK] CSV·DB 건수 검증 완료 (transport_person): 96,366행
+[OK] CSV·DB 건수 검증 완료 (transport_hourly): 1,843,188행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 21:08:14,695 INFO DONE src.load_sqlite
+2026-11-03 21:08:14,695 INFO START src.analyze
+2026-11-03 21:08:18,297 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 21:08:18,298 INFO DONE src.analyze
+2026-11-03 21:08:18,298 INFO START src.dashboard
+2026-11-03 21:08:21,103 INFO [OK] PNG 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.png
+[OK] HTML 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.html
+2026-11-03 21:08:21,103 INFO DONE src.dashboard
+2026-11-03 21:08:21,103 INFO PIPELINE COMPLETE
+2026-11-03 21:08:46,740 INFO START src.inspect_data
+2026-11-03 21:08:49,187 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+이용인원 원천 파일: 96,366행, 6열
+결측치 합계: 0
+중복 행 수: 0
+
+시간대 원천 파일: 1,843,188행, 7열
+결측치 합계: 0
+중복 행 수: 0
+
+[OK] 전체 원천 데이터 구조 확인 완료
+2026-11-03 21:08:49,187 INFO DONE src.inspect_data
+2026-11-03 21:08:49,187 INFO START src.clean_data
+2026-11-03 21:08:57,323 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+[OK] 이용인원 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_person_clean.csv (96,366행)
+[OK] 시간대 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_hourly_clean.csv (1,843,188행)
+2026-11-03 21:08:57,323 INFO DONE src.clean_data
+2026-11-03 21:08:57,323 INFO START src.load_sqlite
+2026-11-03 21:09:04,058 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite
+[OK] CSV·DB 건수 검증 완료 (transport_usage): 315,505행
+[OK] CSV·DB 건수 검증 완료 (transport_person): 96,366행
+[OK] CSV·DB 건수 검증 완료 (transport_hourly): 1,843,188행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 21:09:04,058 INFO DONE src.load_sqlite
+2026-11-03 21:09:04,058 INFO START src.analyze
+2026-11-03 21:09:07,832 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 21:09:07,832 INFO DONE src.analyze
+2026-11-03 21:09:07,832 INFO START src.dashboard
+2026-11-03 21:09:10,711 INFO [OK] PNG 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.png
+[OK] HTML 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.html
+2026-11-03 21:09:10,711 INFO DONE src.dashboard
+2026-11-03 21:09:10,711 INFO PIPELINE COMPLETE
+2026-11-03 21:18:17,975 INFO START src.inspect_data
+2026-11-03 21:18:20,521 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+이용인원 원천 파일: 96,366행, 6열
+결측치 합계: 0
+중복 행 수: 0
+
+시간대 원천 파일: 1,843,188행, 7열
+결측치 합계: 0
+중복 행 수: 0
+
+[OK] 전체 원천 데이터 구조 확인 완료
+2026-11-03 21:18:20,522 INFO DONE src.inspect_data
+2026-11-03 21:18:20,522 INFO START src.clean_data
+2026-11-03 21:18:29,716 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+[OK] 이용인원 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_person_clean.csv (96,366행)
+[OK] 시간대 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_hourly_clean.csv (1,843,188행)
+2026-11-03 21:18:29,717 INFO DONE src.clean_data
+2026-11-03 21:18:29,717 INFO START src.load_sqlite
+2026-11-03 21:18:36,395 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite
+[OK] CSV·DB 건수 검증 완료 (transport_usage): 315,505행
+[OK] CSV·DB 건수 검증 완료 (transport_person): 96,366행
+[OK] CSV·DB 건수 검증 완료 (transport_hourly): 1,843,188행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 21:18:36,395 INFO DONE src.load_sqlite
+2026-11-03 21:18:36,395 INFO START src.analyze
+2026-11-03 21:18:39,904 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 21:18:39,904 INFO DONE src.analyze
+2026-11-03 21:18:39,904 INFO START src.dashboard
+2026-11-03 21:18:43,013 INFO [OK] PNG 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.png
+[OK] HTML 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.html
+2026-11-03 21:18:43,013 INFO DONE src.dashboard
+2026-11-03 21:18:43,013 INFO PIPELINE COMPLETE
+2026-11-03 21:45:37,836 INFO START src.inspect_data
+2026-11-03 21:45:39,992 INFO 행 수: 315,505
+열 수: 7
+컬럼: ['운행일자', '시도코드(법정동)', '시도명', '시군구코드(법정동)', '시군구명', '교통수단명', '이용량']
+
+자료형:
+운행일자          object
+시도코드(법정동)      int64
+시도명           object
+시군구코드(법정동)     int64
+시군구명          object
+교통수단명         object
+이용량            int64
+
+결측치:
+운행일자          0
+시도코드(법정동)     0
+시도명           0
+시군구코드(법정동)    0
+시군구명          0
+교통수단명         0
+이용량           0
+
+중복 행 수: 0
+
+운행일자 범위: 2025-01-01 ~ 2025-12-31
+
+시도별 행 수:
+시도명
+경기도        86554
+서울특별시      66547
+인천광역시      25143
+부산광역시      20061
+경상남도       15070
+경상북도       14771
+충청남도       11359
+강원특별자치도    11038
+전북특별자치도    10333
+전라남도        9461
+대전광역시       8761
+충청북도        8589
+울산광역시       8480
+대구광역시       7182
+광주광역시       6570
+제주특별자치도     4126
+세종특별자치시     1460
+
+교통수단별 행 수:
+교통수단명
+시내      91105
+마을      46365
+도시철도    44098
+좌석      35963
+광역      28311
+간선      24639
+지선      22916
+공항버스    15782
+시외       3272
+순환       2104
+기타버스      950
+
+이용인원 원천 파일: 96,366행, 6열
+결측치 합계: 0
+중복 행 수: 0
+
+시간대 원천 파일: 1,843,188행, 7열
+결측치 합계: 0
+중복 행 수: 0
+
+[OK] 전체 원천 데이터 구조 확인 완료
+2026-11-03 21:45:39,992 INFO DONE src.inspect_data
+2026-11-03 21:45:39,992 INFO START src.clean_data
+2026-11-03 21:45:48,343 INFO [OK] 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage_clean.csv (315,505행)
+[OK] 이용인원 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_person_clean.csv (96,366행)
+[OK] 시간대 정제 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_hourly_clean.csv (1,843,188행)
+2026-11-03 21:45:48,343 INFO DONE src.clean_data
+2026-11-03 21:45:48,343 INFO START src.load_sqlite
+2026-11-03 21:45:54,047 INFO [OK] SQLite 적재 완료: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\data\processed\transport_usage.sqlite
+[OK] CSV·DB 건수 검증 완료 (transport_usage): 315,505행
+[OK] CSV·DB 건수 검증 완료 (transport_person): 96,366행
+[OK] CSV·DB 건수 검증 완료 (transport_hourly): 1,843,188행
+
+전국 시도 상위 10개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+- 대전광역시: 180,007,928
+- 경상남도: 175,940,305
+- 광주광역시: 124,123,744
+- 충청남도: 105,406,317
+- 경상북도: 105,296,507
+2026-11-03 21:45:54,047 INFO DONE src.load_sqlite
+2026-11-03 21:45:54,047 INFO START src.analyze
+2026-11-03 21:45:57,618 INFO [OK] Python·SQL 집계 일치 검증 완료
+[OK] 분석 요약: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\analysis_summary.csv
+[OK] 그래프 생성: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\figures
+
+전국 이용량 상위 5개:
+- 서울특별시: 3,766,452,284
+- 경기도: 1,913,336,686
+- 부산광역시: 771,832,828
+- 인천광역시: 494,134,431
+- 대구광역시: 312,294,408
+2026-11-03 21:45:57,619 INFO DONE src.analyze
+2026-11-03 21:45:57,619 INFO START src.dashboard
+2026-11-03 21:46:00,862 INFO [OK] PNG 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.png
+[OK] HTML 대시보드: C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\reports\dashboard.html
+2026-11-03 21:46:00,862 INFO DONE src.dashboard
+2026-11-03 21:46:00,862 INFO PIPELINE COMPLETE

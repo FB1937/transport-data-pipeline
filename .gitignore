@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+data/geo/*
+!data/geo/busan_sgg.geojson
+
+# Publish generated analysis artifacts with the repository.
+!reports/
+!reports/**
