@@ -66,11 +66,25 @@ Windows PowerShell에서는 WSL 터미널에서 위 명령을 실행하거나,
 TRANSPORT_USAGE_URL=<교통수단별 이용량 CSV 다운로드 URL>
 TRANSPORT_PERSON_URL=<이용인원 CSV 다운로드 URL>
 TRANSPORT_HOURLY_URL=<시간대별 이용량 CSV 다운로드 URL>
+OD_CLOUD_API_KEY=<공공데이터포털 일반 인증키>
+OD_CLOUD_PER_PAGE=10000
 ```
 
 수집 URL이 설정되지 않은 경우 기존 원본 파일을 사용하며, 원본 파일이 없으면
 명확한 오류를 반환합니다. 다운로드 실패 시 최대 3회 재시도하고 기존 파일은
-덮어쓰지 않습니다.
+덮어쓰지 않습니다. 공공데이터포털 Open API URL(`api.odcloud.kr`)을 지정하면
+페이지를 반복 조회하여 JSON 응답을 CSV로 변환합니다. `OD_CLOUD_PER_PAGE`는
+페이지당 행 수이며, 해당 API가 지원하는 10,000으로 설정하면 대용량 시간대별
+데이터의 요청 횟수를 줄일 수 있습니다. 인증키는 `.env`에만 저장하고 GitHub에는
+업로드하지 않습니다.
+
+시간대별 데이터 API 설정 예시는 다음과 같습니다.
+
+```powershell
+$env:OD_CLOUD_API_KEY = "<발급받은 일반 인증키>"
+$env:TRANSPORT_HOURLY_URL = "https://api.odcloud.kr/api/15162164/v1/uddi:4a273358-5664-4b49-8202-e5d4aa77840c"
+python -m src.collect_data
+```
 
 2. 데이터 이해 및 품질 검증을 실행합니다. 기존 교통수단별 CSV와 추가된
 이용인원·시간대별 CSV를 함께 검사합니다.
@@ -91,6 +105,30 @@ python -m src.run_pipeline
 python -m src.clean_data
 python -m src.load_sqlite
 python -m src.analyze
+```
+
+### 증분 적재와 실행 이력
+
+`src.load_sqlite`는 전체 테이블을 매번 교체하지 않습니다. 각 데이터셋의
+자연키를 기준으로 신규 행은 추가하고, 같은 키의 변경 행은 갱신하며, 중복은
+방지합니다. 적재 실행마다 `data/processed/transport_usage.sqlite`의
+`pipeline_runs` 테이블에 실행 ID, 시작·완료 시각, 성공 여부, 원본 행 수,
+저장 행 수, 데이터 기간을 기록합니다.
+
+수집 단계도 `collection_runs` 테이블에 수집 시각, 성공·실패·건너뜀 상태,
+파일별 행 수·크기·SHA-256과 오류를 기록합니다. 따라서 API 수집과 DB 적재를
+분리해서 운영 이력으로 추적할 수 있습니다.
+
+최근 실행 이력은 다음 SQL로 확인할 수 있습니다.
+
+```powershell
+python -c "import sqlite3; c=sqlite3.connect('data/processed/transport_usage.sqlite'); print(*c.execute('SELECT run_id,status,started_at,completed_at,error FROM pipeline_runs ORDER BY started_at DESC LIMIT 10'), sep='\n')"
+```
+
+수집 이력 확인:
+
+```powershell
+python -c "import sqlite3; c=sqlite3.connect('data/processed/transport_usage.sqlite'); print(*c.execute('SELECT run_id,status,started_at,completed_at,error FROM collection_runs ORDER BY run_id DESC LIMIT 10'), sep='\n')"
 ```
 
 실행 로그는 `logs/pipeline.log`에 저장됩니다.

@@ -3,6 +3,7 @@ from __future__ import annotations
 import html
 import json
 import base64
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -21,7 +22,7 @@ from .analyze import (
     calculate_busan_hypothesis_test,
     aggregate_busan_transport_share,
 )
-from .config import CLEAN_FILE, HOURLY_CLEAN_FILE, PERSON_CLEAN_FILE, PROJECT_ROOT
+from .config import CLEAN_FILE, HOURLY_CLEAN_FILE, PERSON_CLEAN_FILE, PROJECT_ROOT, RAW_DIR, SQLITE_FILE
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -34,6 +35,66 @@ GEOJSON_FILE = PROJECT_ROOT / "data" / "geo" / "busan_sgg.geojson"
 DASHBOARD_PNG = REPORT_DIR / "dashboard.png"
 DASHBOARD_HTML = REPORT_DIR / "dashboard.html"
 BUSAN_CODE_PREFIX = "26"
+
+
+def _operational_status() -> tuple[str, str, str]:
+    if not SQLITE_FILE.exists():
+        return "기록 없음", "SQLite 이력 데이터베이스가 없습니다.", ""
+    with sqlite3.connect(SQLITE_FILE) as connection:
+        collection = connection.execute(
+            """
+            SELECT status, completed_at, details_json, error
+            FROM collection_runs
+            ORDER BY run_id DESC LIMIT 1
+            """
+        ).fetchone() if connection.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='collection_runs'"
+        ).fetchone() else None
+        load = connection.execute(
+            """
+            SELECT status, completed_at, details_json, error
+            FROM pipeline_runs
+            ORDER BY started_at DESC LIMIT 1
+            """
+        ).fetchone() if connection.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='pipeline_runs'"
+        ).fetchone() else None
+    collection_text = "기록 없음"
+    load_text = "기록 없음"
+    source_text = "수집 이력 없음"
+    if collection:
+        status, completed_at, details_json, error = collection
+        source_text = f"{status} · {completed_at or '-'}"
+        if error:
+            source_text += f" · {error}"
+        try:
+            details = json.loads(details_json)
+            files = [
+                f"{Path(name).stem}: {int(value.get('rows', 0)):,}행"
+                for name, value in details.items()
+                if isinstance(value, dict) and "rows" in value
+            ]
+            collection_text = " / ".join(files) or "파일 상세 정보 없음"
+        except (TypeError, ValueError):
+            collection_text = "수집 상세 정보를 읽을 수 없습니다."
+    elif (RAW_DIR / "collection_manifest.json").exists():
+        try:
+            manifest = json.loads((RAW_DIR / "collection_manifest.json").read_text(encoding="utf-8"))
+            files = [
+                f"{Path(name).stem}: {int(value.get('rows', 0)):,}행"
+                for name, value in manifest.items()
+                if isinstance(value, dict) and "rows" in value
+            ]
+            source_text = "매니페스트 기준 · 수집 이력 이전 실행"
+            collection_text = " / ".join(files) or "매니페스트 상세 정보 없음"
+        except (OSError, TypeError, ValueError):
+            collection_text = "수집 매니페스트를 읽을 수 없습니다."
+    if load:
+        status, completed_at, details_json, error = load
+        load_text = f"{status} · {completed_at or '-'}"
+        if error:
+            load_text += f" · {error}"
+    return source_text, collection_text, load_text
 
 
 def _polygon_parts(geometry: dict) -> list[list[tuple[float, float]]]:
@@ -182,6 +243,7 @@ def _save_busan_hour_heatmap(hourly_frame: pd.DataFrame) -> Path:
 
 
 def _create_dashboard_html(frame: pd.DataFrame) -> None:
+    collection_status, collection_files, load_status = _operational_status()
     district_all = aggregate_busan_by_sigungu(frame)
     district = district_all.head(5)
     transport = aggregate_busan_transport_share(frame)
@@ -335,6 +397,7 @@ pre{{margin:12px 0;padding:14px 16px;background:#18283d;color:#d9f5e5;border-rad
 <div class="card"><div class="card-label">PEAK HOUR</div><div class="card-value">{int(peak_hour["hour"]):02d}:00</div><div class="card-note">{int(peak_hour["total_usage"]):,} 이용량</div></div></section>
 <div id="dashboard" class="anchor section-title"><h2>Busan usage overview</h2><span>전체 분석 요약</span></div>
 <div class="grid"><section class="panel"><h3>대시보드 안내</h3><p class="about">이 화면은 부산 대중교통의 핵심 지표만 요약합니다. 구·군, 교통수단, 월별 흐름은 각 분석 탭에서 중복 없이 확인할 수 있습니다.</p></section><section class="panel"><h3>주요 관찰</h3><p class="about">{html.escape(str(top_district["sigungu_name"]))}의 이용량이 가장 높고, {html.escape(str(top_transport["transport_type"]))}이 부산 전체 교통수단 중 가장 큰 비중을 차지합니다.</p></section></div>
+<section class="panel"><h3>파이프라인 운영 상태</h3><div class="grid"><div><p class="about"><b>최근 수집:</b> {html.escape(collection_status)}</p><p class="about"><b>수집 파일:</b> {html.escape(collection_files)}</p></div><div><p class="about"><b>최근 SQLite 적재:</b> {html.escape(load_status)}</p><p class="about">수집·적재 이력은 SQLite의 <code>collection_runs</code>, <code>pipeline_runs</code>에 기록됩니다.</p></div></div></section>
 </div>
 <div id="tab-districts" class="tab-panel">
 <div id="districts" class="anchor section-title"><h2>Districts</h2><span>부산 구·군별 이용량</span></div>
@@ -372,6 +435,7 @@ pre{{margin:12px 0;padding:14px 16px;background:#18283d;color:#d9f5e5;border-rad
 <div id="about" class="anchor section-title"><h2>About</h2><span>처음 방문한 분을 위한 안내</span></div>
 <section class="panel about"><h3>이 대시보드는 무엇을 보여주나요?</h3><p>국토교통부의 2025년 대중교통 데이터를 바탕으로 부산의 어느 지역에서, 어떤 교통수단이, 언제 많이 이용되었는지 보여줍니다.</p><p>모든 이용량은 건수 기준이며, 사람 수와는 다른 지표입니다. 이용인원 자료는 별도로 표시해 두 지표를 혼동하지 않도록 했습니다.</p></section>
 <div class="grid"><section class="panel about"><h3>화면 이용 방법</h3><p><b>Districts:</b> 부산 구·군별 이용량과 이용인원 순위를 비교합니다.</p><p><b>Transport:</b> 시내버스·마을버스·도시철도 등 교통수단별 비중을 확인합니다.</p><p><b>Monthly:</b> 월별 변화와 시간대별 이용 패턴을 살펴봅니다.</p><p><b>Explorer:</b> 구·군과 교통수단을 선택해 원하는 조건만 자세히 봅니다.</p></section><section class="panel about"><h3>데이터 범위</h3><p><b>기간:</b> 2025년 1월~12월</p><p><b>지역:</b> 부산 16개 구·군</p><p><b>출처:</b> 국토교통부 시군구별 대중교통 이용인원수·교통수단별 이용량·시간대별 이용량</p></section></div>
+<section class="panel about"><h3>운영 이력</h3><p><b>최근 수집 상태:</b> {html.escape(collection_status)}</p><p><b>수집 파일 요약:</b> {html.escape(collection_files)}</p><p><b>최근 적재 상태:</b> {html.escape(load_status)}</p><p>자동 수집 실패와 재시도 여부는 <code>logs/pipeline.log</code> 및 SQLite 이력 테이블에서 확인할 수 있습니다.</p></section>
 <div class="grid"><section class="panel about"><h3>데이터를 믿을 수 있도록 한 점</h3><p>분석 전에 빈 값, 중복 행, 음수 이용량, 잘못된 시간대 값을 점검했습니다.</p><p>정제된 CSV와 SQLite 데이터베이스의 행 수를 비교하고, Python과 SQL로 계산한 결과도 대조했습니다.</p></section><section class="panel about"><h3>분석 시 참고할 점</h3><p>이용량과 이용인원은 서로 다른 원천 자료에서 계산된 값이므로 직접 같은 의미로 비교하면 안 됩니다.</p><p>이 대시보드는 2025년 자료를 기준으로 하며, 노선·환승·요일별 이용 목적까지 설명하지는 않습니다.</p></section></div>
 <section class="panel about"><h3>재현하고 싶은 분께</h3><p>Python이 설치된 환경에서 프로젝트 폴더를 연 뒤 아래 명령을 실행하면 원천 데이터 점검부터 대시보드 생성까지 다시 수행합니다.</p><pre><code>python -m src.run_pipeline</code></pre><p>완료 후 생성되는 결과는 <code>reports/dashboard.html</code>, 그래프는 <code>reports/figures</code>, 데이터베이스는 <code>data/processed/transport_usage.sqlite</code>, 실행 기록은 <code>logs/pipeline.log</code>에서 확인할 수 있습니다.</p></section></div>
 </div>

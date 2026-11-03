@@ -16,6 +16,8 @@ RAW_PERSON_FILE = RAW_DIR / "국토교통부_시군구별 대중교통이용인�
 RAW_HOURLY_FILE = RAW_DIR / "국토교통부_시군구별 시간대별 대중교통이용인원수_20251231.csv"
 COLLECTION_TIMEOUT_SECONDS = int(os.getenv("COLLECTION_TIMEOUT_SECONDS", "120"))
 COLLECTION_RETRIES = int(os.getenv("COLLECTION_RETRIES", "3"))
+OD_CLOUD_API_KEY = os.getenv("OD_CLOUD_API_KEY", "")
+OD_CLOUD_PER_PAGE = int(os.getenv("OD_CLOUD_PER_PAGE", "10000"))
 RAW_SOURCES = {
     RAW_FILE: os.getenv("TRANSPORT_USAGE_URL", ""),
     RAW_PERSON_FILE: os.getenv("TRANSPORT_PERSON_URL", ""),
