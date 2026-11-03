@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from .config import PROJECT_ROOT
+from .notifications import notify_failure
 
 
 LOG_DIR = PROJECT_ROOT / "logs"
@@ -49,6 +50,15 @@ def main() -> int:
             logging.warning("%s", completed.stderr.rstrip())
         if completed.returncode != 0:
             logging.error("FAILED %s (exit=%s) after %s attempts", step, completed.returncode, MAX_ATTEMPTS)
+            try:
+                channels = notify_failure(
+                    "대중교통 파이프라인 실패",
+                    f"단계: {step}\n종료 코드: {completed.returncode}\n로그: {LOG_FILE}",
+                )
+                if channels:
+                    logging.info("FAILURE ALERT SENT %s", ", ".join(channels))
+            except RuntimeError as error:
+                logging.error("FAILURE ALERT ERROR %s", error)
             return completed.returncode
         logging.info("DONE %s", step)
     logging.info("PIPELINE COMPLETE")

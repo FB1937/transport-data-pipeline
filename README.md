@@ -137,6 +137,50 @@ python -c "import sqlite3; c=sqlite3.connect('data/processed/transport_usage.sql
 작업 스케줄러의 프로그램에는 `powershell.exe`, 인수에는
 `-ExecutionPolicy Bypass -File "...\scripts\run_scheduled.ps1"`를 지정합니다.
 
+### 정기 실행과 실패 알림
+
+작업 스케줄러에서 다음처럼 매일 새벽 3시 또는 원하는 주기로
+`scripts\run_scheduled.ps1`을 실행하도록 등록합니다. 스크립트는 프로젝트의
+`.venv`를 우선 사용하고 없으면 PATH의 Python을 사용합니다.
+
+```powershell
+schtasks /Create /TN "Transit Data Pipeline Daily" /SC DAILY /ST 03:00 `
+  /TR "powershell.exe -ExecutionPolicy Bypass -File \"C:\Users\wjdtn\Public Transit Data Collection and Analysis Pipeline\scripts\run_scheduled.ps1\"" /F
+```
+
+실패 알림은 `.env`에 Discord 웹훅 또는 SMTP 설정을 입력하면 활성화됩니다.
+비밀값은 `.env`에만 저장하며 GitHub에 올리지 않습니다.
+
+```env
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
+# 또는
+ALERT_EMAIL_TO=받는사람@example.com
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USERNAME=보내는계정@example.com
+SMTP_PASSWORD=메일앱비밀번호
+SMTP_FROM=보내는계정@example.com
+```
+
+파이프라인은 실패 단계와 로그 경로를 알림에 포함하고, 알림 자체가 실패해도
+원래 파이프라인 실패 상태를 숨기지 않습니다.
+
+### 증분·복구 운영 검증
+
+API 원본은 매 실행 시 최신 매니페스트를 생성하고, 정제 후 SQLite에서는
+자연키 upsert를 수행합니다. 따라서 신규 행은 추가되고 같은 키의 변경 행은
+갱신되며 기존 데이터 중복은 방지됩니다. `pipeline_runs`와 `collection_runs`
+이력은 성공뿐 아니라 실패도 기록합니다. 중간 단계 실패 후 같은 명령을 다시
+실행하면 정제·적재 단계가 재실행되어 최종 행 수와 자연키 유일성이 유지됩니다.
+
+```powershell
+python -m pytest -q
+python -m src.run_pipeline
+```
+
+아키텍처와 포트폴리오용 데이터 흐름·인사이트는
+`docs/portfolio.md`에서 확인할 수 있습니다.
+
 ## 단계별 완료 기준
 
 - 1단계: `src.inspect_data`가 원천 CSV의 컬럼, 기간, 행 수, 결측치, 중복을 출력한다.
