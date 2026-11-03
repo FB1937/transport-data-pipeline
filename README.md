@@ -38,6 +38,28 @@ $env:POSTGRES_DSN = "postgresql://transit:<password>@localhost:5432/transit"
 python -m src.load_postgres
 ```
 
+### Docker + PostgreSQL 검증 결과
+
+Docker Desktop의 WSL 2 엔진에서 `postgres:16`과 pipeline 컨테이너를 실행해
+실제 연결·적재를 검증했습니다.
+
+```text
+transport_usage: 315,505행
+transport_person: 96,366행
+transport_hourly: 1,843,188행
+pipeline exit code: 0
+```
+
+검증 명령은 다음과 같습니다.
+
+```bash
+export POSTGRES_PASSWORD="local-password"
+docker compose up --build --abort-on-container-exit --exit-code-from pipeline
+```
+
+Windows PowerShell에서는 WSL 터미널에서 위 명령을 실행하거나,
+`wsl -d Ubuntu -- bash -lc "..."` 형식으로 실행합니다.
+
 4. 데이터 이해 및 품질 검증을 실행합니다. 기존 교통수단별 CSV와 추가된
 이용인원·시간대별 CSV를 함께 검사합니다.
 
