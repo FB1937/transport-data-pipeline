@@ -85,7 +85,15 @@ def _operational_status() -> tuple[str, str, str]:
                 for name, value in manifest.items()
                 if isinstance(value, dict) and "rows" in value
             ]
-            source_text = "매니페스트 기준 · 수집 이력 이전 실행"
+            fetched_at = next(
+                (
+                    value.get("fetched_at")
+                    for value in manifest.values()
+                    if isinstance(value, dict) and value.get("fetched_at")
+                ),
+                None,
+            )
+            source_text = f"매니페스트 기준 · {fetched_at or '시각 없음'}"
             collection_text = " / ".join(files) or "매니페스트 상세 정보 없음"
         except (OSError, TypeError, ValueError):
             collection_text = "수집 매니페스트를 읽을 수 없습니다."
