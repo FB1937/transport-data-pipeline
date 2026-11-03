@@ -11,7 +11,7 @@ from .config import PROJECT_ROOT
 
 LOG_DIR = PROJECT_ROOT / "logs"
 LOG_FILE = LOG_DIR / "pipeline.log"
-STEPS = ("src.inspect_data", "src.clean_data", "src.load_sqlite", "src.analyze", "src.dashboard")
+STEPS = ("src.collect_data", "src.inspect_data", "src.clean_data", "src.load_sqlite", "src.analyze", "src.dashboard")
 MAX_ATTEMPTS = 2
 
 

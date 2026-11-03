@@ -7,6 +7,7 @@ __pycache__/
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
+data/raw/collection_manifest.json
 !data/processed/.gitkeep
 data/geo/*
 !data/geo/busan_sgg.geojson

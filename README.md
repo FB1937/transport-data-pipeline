@@ -4,9 +4,7 @@
 
 ## 시작하기
 
-1. 공공데이터포털에서 CSV를 내려받아 `data/raw/`에 저장합니다.
-2. 파일명을 `transport_usage.csv`로 맞춥니다.
-3. Python 3.11 이상 환경에서 의존성을 설치합니다.
+1. Python 3.11 이상 환경을 준비합니다.
 
 ```powershell
 python -m venv .venv
@@ -60,11 +58,31 @@ docker compose up --build --abort-on-container-exit --exit-code-from pipeline
 Windows PowerShell에서는 WSL 터미널에서 위 명령을 실행하거나,
 `wsl -d Ubuntu -- bash -lc "..."` 형식으로 실행합니다.
 
-4. 데이터 이해 및 품질 검증을 실행합니다. 기존 교통수단별 CSV와 추가된
+원본 CSV를 자동으로 내려받으려면 `.env`에 각 파일의 공공데이터 다운로드 URL을
+설정합니다. URL은 코드에 저장하지 않으며, 수집 결과는 `data/raw/`에 원자적으로
+저장되고 `collection_manifest.json`에 시각·크기·SHA-256이 기록됩니다.
+
+```powershell
+TRANSPORT_USAGE_URL=<교통수단별 이용량 CSV 다운로드 URL>
+TRANSPORT_PERSON_URL=<이용인원 CSV 다운로드 URL>
+TRANSPORT_HOURLY_URL=<시간대별 이용량 CSV 다운로드 URL>
+```
+
+수집 URL이 설정되지 않은 경우 기존 원본 파일을 사용하며, 원본 파일이 없으면
+명확한 오류를 반환합니다. 다운로드 실패 시 최대 3회 재시도하고 기존 파일은
+덮어쓰지 않습니다.
+
+2. 데이터 이해 및 품질 검증을 실행합니다. 기존 교통수단별 CSV와 추가된
 이용인원·시간대별 CSV를 함께 검사합니다.
 
 ```powershell
 python -m src.inspect_data
+```
+
+수집부터 대시보드까지 전체 실행:
+
+```powershell
+python -m src.run_pipeline
 ```
 
 정제 파일과 SQLite 데이터베이스를 생성하려면:
@@ -73,12 +91,6 @@ python -m src.inspect_data
 python -m src.clean_data
 python -m src.load_sqlite
 python -m src.analyze
-```
-
-전체 단계를 한 번에 실행하고 로그를 남기려면:
-
-```powershell
-python -m src.run_pipeline
 ```
 
 실행 로그는 `logs/pipeline.log`에 저장됩니다.

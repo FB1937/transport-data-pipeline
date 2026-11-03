@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 POSTGRES_DSN = os.getenv(
@@ -11,6 +14,13 @@ PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 RAW_FILE = RAW_DIR / "transport_usage.csv"
 RAW_PERSON_FILE = RAW_DIR / "국토교통부_시군구별 대중교통이용인원수_20251231.csv"
 RAW_HOURLY_FILE = RAW_DIR / "국토교통부_시군구별 시간대별 대중교통이용인원수_20251231.csv"
+COLLECTION_TIMEOUT_SECONDS = int(os.getenv("COLLECTION_TIMEOUT_SECONDS", "120"))
+COLLECTION_RETRIES = int(os.getenv("COLLECTION_RETRIES", "3"))
+RAW_SOURCES = {
+    RAW_FILE: os.getenv("TRANSPORT_USAGE_URL", ""),
+    RAW_PERSON_FILE: os.getenv("TRANSPORT_PERSON_URL", ""),
+    RAW_HOURLY_FILE: os.getenv("TRANSPORT_HOURLY_URL", ""),
+}
 CLEAN_FILE = PROCESSED_DIR / "transport_usage_clean.csv"
 PERSON_CLEAN_FILE = PROCESSED_DIR / "transport_person_clean.csv"
 HOURLY_CLEAN_FILE = PROCESSED_DIR / "transport_hourly_clean.csv"

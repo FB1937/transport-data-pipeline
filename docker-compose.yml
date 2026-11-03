@@ -17,6 +17,8 @@ services:
 
   pipeline:
     build: .
+    env_file:
+      - .env
     environment:
       POSTGRES_DSN: postgresql://transit:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@postgres:5432/transit
     depends_on:
