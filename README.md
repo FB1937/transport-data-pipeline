@@ -21,14 +21,22 @@ Docker Compose로 데이터베이스와 파이프라인을 함께 실행할 수 
 Copy-Item .env.example .env
 # .env의 POSTGRES_PASSWORD를 로컬 비밀번호로 변경
 docker compose up --build
-python -m src.load_postgres
 ```
 
 PostgreSQL 연결 주소는 `POSTGRES_DSN` 환경 변수로 변경할 수 있습니다.
 `src.load_postgres`는 정제된 CSV 3종을 PostgreSQL의
 `transport_usage`, `transport_person`, `transport_hourly` 테이블로 적재하고
-각 테이블의 행 수를 검증합니다. Docker가 설치되지 않은 환경에서도 기본
+각 테이블의 행 수를 검증합니다. `docker compose up --build`는 파이프라인과
+PostgreSQL을 함께 실행하며, 적재 결과를 컨테이너 로그에 출력합니다. Docker가 설치되지 않은 환경에서도 기본
 SQLite 파이프라인은 그대로 실행할 수 있습니다.
+
+Docker 없이 이미 PostgreSQL 서버를 실행 중이라면 PowerShell에서 연결 주소를
+설정한 뒤 적재할 수 있습니다.
+
+```powershell
+$env:POSTGRES_DSN = "postgresql://transit:<password>@localhost:5432/transit"
+python -m src.load_postgres
+```
 
 4. 데이터 이해 및 품질 검증을 실행합니다. 기존 교통수단별 CSV와 추가된
 이용인원·시간대별 CSV를 함께 검사합니다.
@@ -75,7 +83,7 @@ python -m src.run_pipeline
 - [x] 분석 그래프와 재현 가능한 README 작성
 - [x] 데이터 품질 자동 테스트와 실패 단계 재시도
 - [x] PostgreSQL 적재 모듈과 Docker Compose 실행 환경
-- [ ] GitHub Repository 공개: 현재 폴더가 Git 저장소가 아니므로 원격 저장소 생성 후 수행
+- [x] GitHub Repository 공개: [FB1937/transport-data-pipeline](https://github.com/FB1937/transport-data-pipeline)
 
 SQL 분석 쿼리는 `sql/analysis.sql`에 6개가 있으며, Python·SQL 결과 일치도
 `python -m src.analyze`에서 검증합니다.
